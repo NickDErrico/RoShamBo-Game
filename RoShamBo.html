@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ro-Shammmmmm-Bo!</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+    /* ----- title section ----- */
+      header {
+        height: 20vh;
+        width: 30vw;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #heading {
+        margin-top: 0;
+        text-align: center;
+      }
+
+      .top-image {
+        width: 15vw;
+        margin-top: 2px;
+      }
+      #ro {
+        font-family: 'Lobster', cursive;
+      }
+      #sham {
+        font-family: 'Clicker Script', cursive;
+      }
+      #bo {
+        font-family: 'Sigmar One', cursive;
+      }
+      /* ----- user choice section ----- */
+      main {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        background-color: #E7E9E9;
+      }
+
+      .choice {
+        /* border: 1px solid #989898;*/
+        background-color: #D3D3D3;
+        width: 10vw;
+        overflow: visible;
+      }
+
+      .pick {
+        margin: 2.5%;
+        opacity: 1;
+        border: 3px solid #1DA4B9;
+        height: 25vh;
+        border-radius: 3%;
+      }
+
+      /* ----- results section ----- */
+      section.outcomes {
+        height: 30vh;
+        display: flex;
+        background-color:#000;
+        flex-direction: row;
+        justify-content: center;
+        /*align-items: center;*/
+      }
+
+      .reader {
+        font-family: 'Slabo 27px', sans-serif;
+        color: white;
+        text-align: left;
+        line-height: 1.5;
+        width: 25vw;
+        margin: 1% 2% 0 0;
+      }
+
+      .hidden {
+        visibility: hidden;
+      }
+
+      .results {
+        color:#FFF;
+        width: 40vw;
+        margin: 2%;
+        font-family: 'Slabo 27px', serif;
+        text-align: center;
+        line-height: .6;
+      }
+
+      .results div {
+        width: 33%;
+        box-sizing: border-box;
+        display: inline-block;
+        margin: 0;
+        float: left;
+      }
+      .score {
+        margin: 0;
+        font-size: 65px;
+      }
+
+      .winbox {
+        display: inline-block;
+        padding: 0 .5em 0 .5em;
+      }
+
+      .losebox {
+        display: inline-block;
+        padding: 0 .5em 0 .5em;
+      }
+
+      .winLossbox {
+        display: inline-block;
+        padding: 0 .5em 0 .5em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img class="top-image" src="http://res.cloudinary.com/drbu9pvxt/image/upload/v1489108264/RoShamBo/ro-sham-bo_q5kuaf.png" alt="rock paper scissors image" />
+      <h1 id="heading">
+        <span id="ro">Ro </span><span id="sham">Sham </span><span id="bo">Bo!</span>
+      </h1>
+    </header>
+    <main>
+        <img id="rock" class="pick" src="http://res.cloudinary.com/drbu9pvxt/image/upload/v1489108179/RoShamBo/blue-rock_czfgz5.png" name="rock" alt="rock" />
+        <img id="paper" class="pick" src="http://res.cloudinary.com/drbu9pvxt/image/upload/v1489108162/RoShamBo/blue-paper_qlvjn4.png" name="paper" alt="paper" />
+        <img id="scissors" class="pick" src="http://res.cloudinary.com/drbu9pvxt/image/upload/v1489108194/RoShamBo/blue-scissors_tgtlbl.png" name="scissors" alt="scissors" />
+    </main>
+    <section class="outcomes">
+      <div class="reader">
+        <h2 class="reader-text">What'll it be?</h2>
+      </div>
+      <img id="throw" class="hidden" src="http://res.cloudinary.com/drbu9pvxt/image/upload/v1489108227/RoShamBo/rock_xjk2zx.png" alt="one-two-three-shoot" />
+      <div class="results">
+        <div class="winbox">
+          <h2>WINS</h2>
+          <h1 class="scoreWins">0</h1>
+        </div>
+        <div class="losebox">
+          <h2>LOSSES</h2>
+          <h1 class="scoreLosses">0</h1>
+        </div>
+        <div class="winLossbox">
+          <h2>WIN/LOSS</h2>
+          <h1 class="scorePercentage">0%</h1>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    //on click function
+    let userChoice
+    let winbox = [1];
+    let losebox = [1];
+    //let winLossRatio = winbox / (winbox + losebox);
+
+    //on click function
+    document.getElementById("rock").addEventListener("click", function() {
+      userChoice = "Rock";
+      let computerChoiceRock = () => {
+        var randomNum =  Math.floor(Math.random() * 3) + 1;
+        // 1 will = rock, 2 will = paper, 3 will equal scissors
+        if (randomNum === 1 && userChoice === "Rock") {
+          alert("Computer chose Rock, it's a Tie!");
+        }else if (randomNum === 2 && userChoice === "Rock") {
+            alert("Computer chose Paper, you lose");
+            document.querySelector(".scoreLosses").innerHTML = losebox++
+        }else if(randomNum === 3 && userChoice === "Rock") {
+            alert("Computer chose Scissors, You WIN!");
+             document.querySelector(".scoreWins").innerHTML = winbox++
+        }
+      }
+      return computerChoiceRock();
+    });
+    document.getElementById("paper").addEventListener("click", function() {
+      userChoice = "Paper";
+      let computerChoicePaper = () => {
+        var randomNum =  Math.floor(Math.random() * 3) + 1;
+        // 1 will = rock, 2 will = paper, 3 will equal scissors
+      if (randomNum === 1 && userChoice === "Paper") {
+        alert("Computer chose Rock, you WIN!");
+        document.querySelector(".scoreWins").innerHTML = winbox++
+      }else if (randomNum === 2 && userChoice === "Paper") {
+          alert("Computer chose Paper, it's a Tie");
+      }else if(randomNum === 3 && userChoice === "Paper") {
+          alert("Computer chose scissors, you lose")
+          document.querySelector(".scoreLosses").innerHTML = losebox++
+       }
+    }
+    return computerChoicePaper();
+  });
+    document.getElementById("scissors").addEventListener("click", function() {
+      userChoice = "Scissors";
+      let computerChoiceScissors = () => {
+        var randomNum =  Math.floor(Math.random() * 3) + 1;
+        // 1 will = rock, 2 will = paper, 3 will equal scissors
+      if (randomNum === 1 && userChoice === "Scissors") {
+        alert("Computer chose rock, you lose");
+        document.querySelector(".scoreLosses").innerHTML = losebox++
+      }else if (randomNum === 2 && userChoice === "Scissors") {
+          alert("Computer chose paper, you WIN!");
+          document.querySelector(".scoreWins").innerHTML = winbox++
+      }else if(randomNum === 3 && userChoice === "Scissors") {
+          alert("Computer chose Scissors, it's a Tie");
+      }
+    }
+    return computerChoiceScissors();
+
+
+  });
+  /*let winLossRatio = () => {
+    let winLossBox = 0;
+    for (var  i = 0; i < winbox.length; i++) {
+    winLossBox = (winbox / (winbox + losebox)) * 100;
+    document.querySelector(".scorePercentage").innerHTML = winLossBox++
+    for (var j = 0; i < losebox.length; j++) {
+    winLossBox = (winbox / (winbox + losebox)) * 100;
+    document.querySelector(".scorePercentage").innerHTML = winLossBox++
+    }
+  }
+}
+  winLossRatio()*/
+    //computer choice RNG function & if/else for RPS
+
+
+
+
+    //add lizard and spock
+    //add to counter
+    //console.log(winLossRatio)//in appropriate spot
+    //recalculate win/loss ratio(percentage)
+    </script>
+  </body>
+</html>
